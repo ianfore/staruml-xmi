@@ -271,6 +271,27 @@ function readRefArray (node, name) {
 }
 
 /**
+ * Read xmi:Extension
+ * @param {XMLNode} node
+ * @return {object} valueMap
+ */
+function readExtension (node) {
+  
+  var valMap = {}
+  var _extensionNode = _findChildByName(node, 'xmi:Extension')
+  if (_extensionNode == null)  return null 
+  var extender = _extensionNode.getAttribute('extender')
+  for (var i = 0, len = _extensionNode.childNodes.length; i < len; i++) {
+       var child = _extensionNode.childNodes[i]
+       if (child.nodeType === ELEMENT_NODE) {        
+            valMap[child.nodeName] = child.getAttribute('value')
+     }  
+   }
+  return valMap
+}
+
+
+/**
  * Execute All Post-processors
  */
 function postprocess () {
@@ -374,6 +395,7 @@ exports.readElement = readElement
 exports.readElementArray = readElementArray
 exports.readRef = readRef
 exports.readRefArray = readRefArray
+exports.readExtension = readExtension
 
 exports.postprocess = postprocess
 exports.clear = clear

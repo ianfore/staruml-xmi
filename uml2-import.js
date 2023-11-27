@@ -283,7 +283,8 @@ reader.elements['uml:Property'] = function (node) {
   Object.assign(json, reader.elements['uml:ConnectableElement'](node))
   json['_type'] = 'UMLAttribute'
   json['isDerived'] = reader.readBoolean(node, 'isDerived', false)
-  // isDerivedUnion
+  var extValMap = reader.readExtension(node)
+  if (extValMap) json['documentation'] = extValMap["documentation"]
   json['isID'] = reader.readBoolean(node, 'isID', false)
   json['aggregation'] = reader.readEnum(node, 'aggregation', 'uml:AggregationKind', type.UMLAttribute.AK_NONE)
   json['defaultValue'] = reader.readElement(node, 'defaultValue') || ''
@@ -440,6 +441,8 @@ reader.elements['uml:Class'] = function (node) {
   appendTo(json, 'ownedElements', _encapsulated.ownedElements)
   appendTo(json, 'ownedElements', _behaviored.ownedElements)
   appendTo(json, 'attributes', _encapsulated.attributes)
+  var extValMap = reader.readExtension(node)
+  if (extValMap) json['documentation'] = extValMap["documentation"]
   json['_type'] = 'UMLClass'
   return json
 }
