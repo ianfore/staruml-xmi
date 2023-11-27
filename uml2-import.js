@@ -284,6 +284,7 @@ reader.elements['uml:Property'] = function (node) {
   json['_type'] = 'UMLAttribute'
   json['isDerived'] = reader.readBoolean(node, 'isDerived', false)
   // isDerivedUnion
+  json['isID'] = reader.readBoolean(node, 'isID', false)
   json['aggregation'] = reader.readEnum(node, 'aggregation', 'uml:AggregationKind', type.UMLAttribute.AK_NONE)
   json['defaultValue'] = reader.readElement(node, 'defaultValue') || ''
   // Read as an AssociationEnd
