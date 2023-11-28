@@ -281,7 +281,9 @@ reader.elements['uml:StructuralFeature'] = function (node) {
 reader.elements['uml:Property'] = function (node) {
   var json = reader.elements['uml:StructuralFeature'](node)
   Object.assign(json, reader.elements['uml:ConnectableElement'](node))
-  json['_type'] = 'UMLAttribute'
+  json['_type'] = 'UMLAttribute' // node type
+  var tp =  reader.readString(node, 'type', null) // attribute type
+  if (tp) json['type'] = tp
   json['isDerived'] = reader.readBoolean(node, 'isDerived', false)
   var extValMap = reader.readExtension(node)
   if (extValMap) json['documentation'] = extValMap["documentation"]
