@@ -282,11 +282,15 @@ reader.elements['uml:Property'] = function (node) {
   var json = reader.elements['uml:StructuralFeature'](node)
   Object.assign(json, reader.elements['uml:ConnectableElement'](node))
   json['_type'] = 'UMLAttribute' // node type
-  var tp =  reader.readString(node, 'type', null) // attribute type
-  if (tp) json['type'] = tp
   json['isDerived'] = reader.readBoolean(node, 'isDerived', false)
   var extValMap = reader.readExtension(node)
-  if (extValMap) json['documentation'] = extValMap["documentation"]
+  if (extValMap) {
+      json['documentation'] = extValMap["documentation"]
+  }
+  if (node.Name === 'ownedAttribute' ) {
+      var tp =  reader.readString(node, 'type', null) 
+      if (tp) json['type'] = tp
+  }
   json['isID'] = reader.readBoolean(node, 'isID', false)
   json['aggregation'] = reader.readEnum(node, 'aggregation', 'uml:AggregationKind', type.UMLAttribute.AK_NONE)
   json['defaultValue'] = reader.readElement(node, 'defaultValue') || ''
@@ -444,7 +448,9 @@ reader.elements['uml:Class'] = function (node) {
   appendTo(json, 'ownedElements', _behaviored.ownedElements)
   appendTo(json, 'attributes', _encapsulated.attributes)
   var extValMap = reader.readExtension(node)
-  if (extValMap) json['documentation'] = extValMap["documentation"]
+  if (extValMap) {
+      json['documentation'] = extValMap["documentation"]
+  }
   json['_type'] = 'UMLClass'
   return json
 }
