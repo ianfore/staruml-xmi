@@ -164,11 +164,13 @@ reader.elements['uml:LiteralString'] = function (node) {
 }
 
 reader.elements['uml:LiteralUnlimitedNatural'] = function (node) {
+  //return '*'
   // var json = reader.elements['uml:LiteralSpecification'](node);
   var val = reader.readString(node, 'value', '')
   if (val === '-1') { // for EA
     val = '*'
   }
+  val = '*'
   return val
 }
 
@@ -201,9 +203,24 @@ reader.elements['uml:MultiplicityElement'] = function (node) {
   if (json['multiplicity'] === '*..*') { // for EA
     json['multiplicity'] = '*'
   }
-  if (json['multiplicity'] === '1..1' || json['multiplicity'] === '0..0') { // for EA
-    json['multiplicity'] = ''
+  //if (json['multiplicity'] === '1..1' || json['multiplicity'] === '0..0') { // for EA
+  //  json['multiplicity'] = ''
+  //}
+  if (json['multiplicity'] === '1..1') { // for EA
+    json['multiplicity'] = '1'
   }
+  if (json['multiplicity'] === '0..0') { // for EA
+    json['multiplicity'] = '0'
+  }
+  /*  if ( node.nodeName === 'ownedEnd') {
+    if (lowerValue == null && upperValue == null) {
+        json['multiplicity'] = 'n..n'
+    } else if (lowerValue == null) {
+        json['multiplicity'] = 'n..' + upperValue
+    } else if (upperValue == null) {
+        json['multiplicity'] = lowerValue + '..y';
+    }
+  }*/
   return json
 }
 

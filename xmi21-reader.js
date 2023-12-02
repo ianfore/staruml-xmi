@@ -189,6 +189,9 @@ function readElement (node, name) {
           idMap[elem._id] = elem
           return elem
         }
+        else  if (typeof elem !== 'undefined' && elem !== null) {
+           return elem
+        }
       }
     }
   }
